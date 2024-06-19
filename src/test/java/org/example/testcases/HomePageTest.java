@@ -5,8 +5,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 public class HomePageTest {
     HomePage hp;
@@ -39,8 +38,18 @@ public class HomePageTest {
         assertTrue(hp.verify_prd_price());
     }
     @Test
+    public void remove_Product_from_HomePage(){
+        hp.clickCart();
+        assertEquals(hp.verify_buttonName(),"Remove");
+        assertEquals(hp.verify_cartBadge(),"1");
+        hp.click_removebutton();
+        assertEquals(hp.verify_addtocart_buttonName(),"Add to cart");
+        assertFalse(hp.display_cartBadge());
+    }
+    @Test
     public void verify_AboutPage(){
         hp.clickMenu();
+        hp.clickAbout();
         assertEquals(hp.verifycurrentURL(),"https://saucelabs.com/");
     }
     @AfterMethod

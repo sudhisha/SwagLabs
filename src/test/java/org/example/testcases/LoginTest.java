@@ -51,6 +51,7 @@ public class LoginTest {
     }
     @Test
     public void logOut(){
+        login_with_valid_inputs();
         lp.clickMenu();
         lp.ClickLogOut();
         assertEquals(lp.verifyLoginPage(),"https://www.saucedemo.com/");

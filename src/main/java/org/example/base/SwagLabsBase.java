@@ -21,6 +21,6 @@ public class SwagLabsBase {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
     }
     public void tearDown(){
-//        driver.quit();
+        driver.quit();
     }
 }
