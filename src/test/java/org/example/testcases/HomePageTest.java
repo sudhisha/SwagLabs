@@ -52,6 +52,38 @@ public class HomePageTest {
         hp.clickAbout();
         assertEquals(hp.verifycurrentURL(),"https://saucelabs.com/");
     }
+    @Test
+    public void verify_Filter_DropDown_visibility(){
+        assertTrue(hp.verifyFilterDpDn());
+    }
+    @Test
+    public void Filter_Products_Name_AtoZ(){
+        verify_Filter_DropDown_visibility();
+        hp.clickFilter();
+        hp.selectNameAtoZ("az");
+        assertTrue(hp.verify_prdNames_Order(1));
+    }
+    @Test
+    public void Filter_Products_Name_ZtoA(){
+        verify_Filter_DropDown_visibility();
+        hp.clickFilter();
+        hp.selectNameAtoZ("za");
+        assertTrue(hp.verify_prdNames_Order(2));
+    }
+    @Test
+    public void Filter_Products_Price_LowtoHigh(){
+        verify_Filter_DropDown_visibility();
+        hp.clickFilter();
+        hp.selectNameAtoZ("lohi");
+        assertTrue(hp.verify_prdPrices_Order(3));
+    }
+    @Test
+    public void Filter_Products_Price_HightoLow(){
+        verify_Filter_DropDown_visibility();
+        hp.clickFilter();
+        hp.selectNameAtoZ("hilo");
+        assertTrue(hp.verify_prdPrices_Order(4));
+    }
     @AfterMethod
     public void teardown(){
         hp.tearDown();

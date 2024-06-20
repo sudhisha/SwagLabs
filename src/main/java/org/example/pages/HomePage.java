@@ -2,6 +2,11 @@ package org.example.pages;
 
 import org.example.base.SwagLabsBase;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomePage extends SwagLabsBase {
     By products = By.xpath(".//span[text()=\"Products\"]");
@@ -15,6 +20,10 @@ public class HomePage extends SwagLabsBase {
     By cartprdname = By.xpath("(.//div[@class=\"inventory_item_name\"])[1]");
     By cartpdesc = By.xpath("(.//div[@class=\"inventory_item_desc\"])[1]");
     By cartprice = By.xpath("(.//div[@class=\"inventory_item_price\"])[1]");
+    By filter = By.xpath(".//select[@class=\"product_sort_container\"]");
+    By prd_names = By.xpath(".//div[@class=\"inventory_item_name \"]");
+    By prd_prices = By.xpath(".//div[@class=\"inventory_item_price\"]");
+
     public boolean productsVisibility(){
         return driver.findElement(products).isDisplayed();
     }
@@ -69,5 +78,61 @@ public class HomePage extends SwagLabsBase {
     }
     public String verifycurrentURL() {
         return driver.getCurrentUrl();
+    }
+    public boolean verifyFilterDpDn() {
+        return driver.findElement(filter).isDisplayed();
+    }
+    public void clickFilter() {
+        driver.findElement(filter).click();
+    }
+    public void selectNameAtoZ(String value) {
+        Select s = new Select(driver.findElement(filter));
+        s.selectByValue(value);
+    }
+    public boolean verify_prdNames_Order(int t) {
+        List<WebElement> names = driver.findElements(prd_names);
+        ArrayList<String> ar = new ArrayList<>();
+        System.out.println("prd names: ");
+        for(WebElement n:names){
+            System.out.println(n.getText());
+            ar.add(n.getText());
+        }
+        System.out.println("ar:"+ar);
+        for (int i = 0; i < ar.size()-1 ; i++) {
+            if (t==1) {
+                if (ar.get(i).compareTo(ar.get(i + 1)) > 0) {
+                    return false;
+                }
+            }
+            else if (t==2) {
+                if (ar.get(i).compareTo(ar.get(i + 1)) < 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    public boolean verify_prdPrices_Order(int t) {
+        List<WebElement> names = driver.findElements(prd_prices);
+        ArrayList<Float> ar = new ArrayList<>();
+        System.out.println("prd names: ");
+        for(WebElement n:names){
+            System.out.println(n.getText());
+            ar.add(Float.parseFloat(n.getText().replace("$","")));
+        }
+        System.out.println("ar:"+ar);
+        for (int i = 0; i < ar.size()-1 ; i++) {
+            if (t==3) {
+                if (ar.get(i) > ar.get(i + 1)) {
+                    return false;
+                }
+            }
+            else if (t==4) {
+                if (ar.get(i) < ar.get(i + 1)) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
